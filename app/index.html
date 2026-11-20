@@ -3,20 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice Cover Studio — GTA-style cover art maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">VC</span><span class="brand-name">VICE COVER STUDIO</span></div>
+  <div class="sizes" role="group" aria-label="Export size">
+    <button type="button" class="size-btn active" data-size="1080x1080">1080 × 1080</button>
+    <button type="button" class="size-btn" data-size="1080x1350">1080 × 1350</button>
+    <button type="button" class="size-btn" data-size="1920x1080">1920 × 1080</button>
+  </div>
+  <button id="export" type="button" class="export-btn">Export PNG 1080 × 1080</button>
+</header>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <aside class="controls">
+    <section class="group">
+      <h2>1 · Your photos</h2>
+      <div id="dropzone" class="dropzone" role="button" tabindex="0">
+        <strong>Drop photos here</strong>
+        <span>or click to pick from your machine — they never leave it</span>
+      </div>
+      <input id="photo" type="file" accept="image/*" multiple hidden>
+      <div class="samples" aria-label="Sample photos">
+        <button type="button" class="sample-btn" data-sample="vice-street"><img src="samples/vice-street.jpg" alt="Sunset boulevard sample"></button>
+        <button type="button" class="sample-btn" data-sample="neon-alley"><img src="samples/neon-alley.jpg" alt="Neon alley sample"></button>
+        <button type="button" class="sample-btn" data-sample="pier"><img src="samples/pier.jpg" alt="Pier sample"></button>
+        <button type="button" class="sample-btn" data-sample="boulevard"><img src="samples/boulevard.jpg" alt="Boulevard sample"></button>
+      </div>
+      <p class="note">Tap a sample to load it into the selected panel.</p>
+    </section>
+    <section class="group">
+      <h2>2 · Panels</h2>
+      <div class="layouts" role="group" aria-label="Panel layout">
+        <button type="button" class="layout-btn" data-layout="solo"><span class="mini solo"></span>1 panel</button>
+        <button type="button" class="layout-btn" data-layout="duo"><span class="mini duo"></span>2 panels</button>
+        <button type="button" class="layout-btn active" data-layout="trio"><span class="mini trio"></span>3 panels</button>
+        <button type="button" class="layout-btn" data-layout="quad"><span class="mini quad"></span>4 panels</button>
+      </div>
+      <label class="field">Zoom selected panel
+        <span class="slider-row"><input id="zoom" type="range" min="0" max="200" value="0"><b id="zoom-value">100%</b></span>
+      </label>
+      <div class="row">
+        <button id="fill-all" type="button" class="ghost-btn">Fill all panels</button>
+        <button id="centre" type="button" class="ghost-btn">Centre photo</button>
+      </div>
+    </section>
+    <section class="group">
+      <h2>3 · Colour grade</h2>
+      <div class="grades" role="group" aria-label="Colour grade">
+        <button type="button" class="grade-btn active" data-grade="sunset"><span class="swatch sunset"></span>Vice Sunset</button>
+        <button type="button" class="grade-btn" data-grade="neon"><span class="swatch neon"></span>Neon Night</button>
+        <button type="button" class="grade-btn" data-grade="gold"><span class="swatch gold"></span>Golden Hour</button>
+        <button type="button" class="grade-btn" data-grade="teal"><span class="swatch teal"></span>Miami Teal</button>
+      </div>
+    </section>
+    <section class="group">
+      <h2>4 · Caption</h2>
+      <label class="field">Title
+        <input id="caption" type="text" maxlength="30" value="Sunset Heist">
+      </label>
+      <label class="field">Tagline
+        <input id="subcaption" type="text" maxlength="40" value="Neon Nights">
+      </label>
+    </section>
+    <p id="status" role="status">Three samples loaded — pick a layout, a grade, a caption, then export.</p>
+  </aside>
+  <section class="stage">
+    <canvas id="cover" width="1080" height="1080" aria-label="Cover preview"></canvas>
+    <p class="hint">Click a panel to select it · drag its photo to move it · scroll to zoom · drop your own photos on the cover</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
